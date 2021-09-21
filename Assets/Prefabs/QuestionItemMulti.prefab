@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 5064123025729304196}
   toggleTransition: 1
-  graphic: {fileID: 5064123027088387261}
+  graphic: {fileID: 2767784651424319636}
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
@@ -285,7 +285,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Type: 1
+  text: 
+  answerTRUE: 0
+  droppedIndex: 0
+  backGround: {fileID: 0}
   answer: {fileID: 5064123026678518771}
+  indexText: {fileID: 0}
   Rect: {fileID: 5064123026672635324}
 --- !u!1 &5064123026678518769
 GameObject:
@@ -431,7 +436,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5064123027088387258}
   - component: {fileID: 5064123027088387260}
-  - component: {fileID: 5064123027088387261}
+  - component: {fileID: 2767784651424319636}
   m_Layer: 5
   m_Name: Checkmark
   m_TagString: Untagged
@@ -466,7 +471,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5064123027088387259}
   m_CullTransparentMesh: 1
---- !u!114 &5064123027088387261
+--- !u!114 &2767784651424319636
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -32,7 +32,9 @@ public class Main : MonoBehaviour
         SelectedIndex = i;
         //Debug.Log("Set Selected Index " + i);
     }
-    //-------------------------------
+    //-------------Order-----------
+    private int nowOrder;
+    //-----------------------------
     public QuestionData[] questionData;
 
 
@@ -46,12 +48,18 @@ public class Main : MonoBehaviour
     public Answer SingleItem;
     public Answer MultiItem;
     public Answer TakenItem;
+    public Answer OrderItem;
 
     public void AnswerFor(int i)
     {
         answers[i].answerTRUE = true;
 
         ChechAnswer();
+    }
+    public void SetOrderFor(int i)
+    {
+        answers[i].SetOrder(nowOrder);
+        nowOrder++;
     }
     public void SetToggleFor(int i)
     {
@@ -72,7 +80,7 @@ public class Main : MonoBehaviour
     {
         QuestionData temp = questionData[NowQuestionNum];
         QuestionText.text = temp.Question;
-
+        nowOrder = 0;
         switch(temp.QuestionType)
         {
             case QuestionData.Type.Image:
@@ -111,6 +119,16 @@ public class Main : MonoBehaviour
                     for (int i = 0; i < temp.Answer.Length; i++)
                     {
                         answers[i] = Instantiate(SingleItem, QuestionContent);
+                        answers[i].SetQuestion(temp.Answer[i].Text, i);
+                    }
+                }
+                break;
+            case QuestionData.Type.Order:
+                {
+                    answers = new Answer[temp.Answer.Length];
+                    for (int i = 0; i < temp.Answer.Length; i++)
+                    {
+                        answers[i] = Instantiate(OrderItem, QuestionContent);
                         answers[i].SetQuestion(temp.Answer[i].Text, i);
                     }
                 }
@@ -170,6 +188,22 @@ public class Main : MonoBehaviour
                 for(int i = 0; i < temp.Answer.Length; i++)
                 {
                     if (answers[i].droppedIndex != imageTaken.imageItem[i].index)
+                    {
+                        Failed();
+                        return;
+                    }
+                }
+                Done();
+                break;
+            case QuestionData.Type.Order:
+                for(int i = 0; i < temp.Answer.Length; i++)
+                {
+                    if(temp.Answer[i].TRUE && answers[i].order != i)
+                    {
+                        Failed();
+                        return;
+                    }
+                    else if(!temp.Answer[i].TRUE && answers[i].order != -1)
                     {
                         Failed();
                         return;
@@ -244,7 +278,7 @@ public class QuestionData
 {
     public string Name;
 
-    public enum Type {Single, Multi, Image}
+    public enum Type {Single, Multi, Image, Order}
     [Header("Тип вопросов")]
     public Type QuestionType;
 

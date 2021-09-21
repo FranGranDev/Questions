@@ -9,6 +9,8 @@ public class Answer : MonoBehaviour
     public string text;
     public bool answerTRUE;  //-------For Single and Multi
     public int droppedIndex; //-------For Image Drop
+    public int order; //----------For Order
+    private bool NoClick; //-------For Order
 
     private event OnClick OnAnswerClick;
     public delegate void OnClick(int index);
@@ -16,6 +18,7 @@ public class Answer : MonoBehaviour
     [Header("Components")]
     public Image backGround;
     public TextMeshProUGUI answer;
+    public TextMeshProUGUI indexText;
     public RectTransform Rect;
 
     public void SetQuestion(string text, int index)
@@ -35,14 +38,27 @@ public class Answer : MonoBehaviour
             case QuestionData.Type.Single:
                 OnAnswerClick += Main.active.AnswerFor;
                 break;
+            case QuestionData.Type.Order:
+                OnAnswerClick += Main.active.SetOrderFor;
+                order = -1;
+                break;
         }
     }
 
     public void ButtonClick()
     {
+        if (NoClick)
+            return;
         OnAnswerClick.Invoke(index);
+        if (Type == QuestionData.Type.Order)
+            NoClick = true;
     }
 
+    public void SetOrder(int i)
+    {
+        order = i;
+        indexText.text = (i + 1).ToString();
+    }
     public void TurnTaken(bool on)
     {
         if(on)
